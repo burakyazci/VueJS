@@ -4,8 +4,27 @@
     <router-link :to="{name: 'About'}">About</router-link> |
     <router-link :to="{name: 'Personel'}">Employees</router-link>
   </nav>
+  <button @click="anasayfa">Anasayfa</button>
+  <button @click="geri">Geri</button>
+  <button @click="ileri">İleri</button>
   <router-view/>
 </template>
+
+<script>
+export default {
+  methods: {
+    anasayfa() {
+      this.$router.push({name: 'Home'});
+    },
+    geri() {
+      this.$router.go(-1);
+    },
+    ileri() {
+      this.$router.go(+1);
+    }
+  },
+}
+</script>
 
 <style>
 #app {
