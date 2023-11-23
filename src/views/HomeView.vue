@@ -1,24 +1,33 @@
 <template>
-  <p>{{ ad }} -- {{ yetenekNesnesi.yetenekAd }}</p>
-  <button @click="butonTiklandi">Tıkla</button>
+  <input type="text" v-model="ara">
+  <div v-for="isim in bulunanlar" :key="isim">
+    {{ isim }}
+  </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import {ref, reactive} from 'vue'
+import { ref, computed, watch, watchEffect } from "vue";
 
 export default {
-  name: 'HomeView',
+  name: "HomeView",
   setup() {
-    const ad = ref("Luffy");
-    let yetenekNesnesi = reactive({yetenekAd: 'lastik'});
+    const isimler = ref(["Luffy", "Zoro", "Nami", "Sanji", "Usop"]);
+    let ara = ref('');
 
-    const butonTiklandi = () => {
-      ad.value = "DEĞİŞTİ";
-      yetenekNesnesi.yetenekAd = "Kılıç"
-    }
-    return {ad, butonTiklandi, yetenekNesnesi}
+    const bulunanlar = computed(() => {
+      return isimler.value.filter((isim) => isim.includes(ara.value));
+    });
 
-  }
-}
+    watch(ara, () => {
+      console.log('watch çalıştı'); // Sadece belirtilen source'da değişiklik kontrolü(dinlemesi) yapıyor.
+    });
+
+    watchEffect(() => {
+      console.log('watchEffect çalıştı!', isimler.value); // Birden fazla değişiklik kontrolü(dinlemesi) yapabiliyor.
+      console.log('watchEffect çalıştı!', ara.value);
+    })
+
+    return { isimler, bulunanlar, ara };
+  },
+};
 </script>
